@@ -1,6 +1,5 @@
 package com.springbook.biz;
 
-
 import java.sql.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -25,7 +24,7 @@ public class BoardVO {
 	private MultipartFile uploadFile;
 	@XmlTransient
 	private String images;
-	
+
 	@XmlTransient
 	private String searchCondition;
 	@XmlTransient
@@ -92,13 +91,12 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	
 	@Override
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
 				+ regDate + ", cnt=" + cnt + "]";
 	}
-	
-	
 	
 	
 

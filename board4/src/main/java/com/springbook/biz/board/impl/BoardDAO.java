@@ -14,7 +14,7 @@ import com.springbook.biz.BoardVO;
 import com.springbook.biz.common.JDBCUtil;
 
 //@Component("boardDAO")
-@Repository("boardDAO")
+//@Repository("boardDAO")
 public class BoardDAO {
 	//JDBC관련 변수
 	private Connection conn=null;
@@ -32,7 +32,7 @@ public class BoardDAO {
 	private final String BOARD_LIST_T="select * from board where title like '%'||?||'%' order by seq desc";
 	private final String BOARD_LIST_C="select * from board where content like '%'||?||'%' order by seq desc";
     private final String BOARD_UPDATE_CNT="update board set cnt=nvl(cnt,0)+1 where seq=?";
-
+	
 	//글등록 메소드
 	public void insertBoard(BoardVO vo) {
 		System.out.println("===> jdbc로 insertBoard()기능 처리");
@@ -42,7 +42,7 @@ public class BoardDAO {
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getWriter());
 			pstmt.setString(3, vo.getContent());
-			pstmt.setString(4, vo.getUploadFile().getOriginalFilename());
+			pstmt.setString(4,vo.getUploadFile().getOriginalFilename());
 			pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -64,15 +64,14 @@ public class BoardDAO {
 			      }else {
 			    	  pstmt=conn.prepareStatement(BOARD_LIST);
 			      }
-			      if(vo.getSearchCondition().equals("TITLE")||vo.getSearchCondition().equals("CONTENT")) {
-			      pstmt.setString(1, vo.getSearchKeyword());
-			      
-			      }else if(vo.getSearchCondition().equals("")) {
-			    	  pstmt.setString(1,vo.getSearchKeyword());
-			    	  pstmt.setString(2,vo.getSearchKeyword());
+          if(vo.getSearchCondition().equals("TITLE")|| 
+        		    vo.getSearchCondition().equals("CONTENT")) {
+			         pstmt.setString(1, vo.getSearchKeyword());
+          }else if(vo.getSearchCondition().equals("")) {
+        	  pstmt.setString(1, vo.getSearchKeyword());
+        	  pstmt.setString(2, vo.getSearchKeyword());
+          }
 			    	  
-			      }
-			      
 			      rs=pstmt.executeQuery();
 			      while(rs.next()) {
 			    	  BoardVO board=new BoardVO();
@@ -93,6 +92,7 @@ public class BoardDAO {
 		
 		return boardList;
 	}
+
 	//글 상세 조회 메소드
 	public BoardVO getBoard(BoardVO vo) {
 		System.out.println("===>JDBC로 getBoard()기능 처리");
@@ -100,7 +100,7 @@ public class BoardDAO {
 		  PreparedStatement pstmt=null;
 		  ResultSet rs=null;
 		  BoardVO board=new BoardVO();
-		  //조회수 증가 메소드호출
+		  //조회수 증가 메소드 호출
 		  updateBoardCnt(vo);
 		  try {
 			     conn=JDBCUtil.getConnection();
@@ -114,7 +114,8 @@ public class BoardDAO {
 			    	 board.setContent(rs.getString("content"));
 			    	 board.setRegDate(rs.getDate("regdate"));
 			    	 board.setCnt(rs.getInt("cnt"));
-			    	 board.setImages("c:/upload/"+rs.getString("uploadFile"));
+			    	 board.setImages(rs.getString("uploadFile"));
+			    	 //board.setImages("c:/upload/"+rs.getString("uploadFile"));
 			     } 
 		  }catch(Exception e) {
 			  e.printStackTrace();
@@ -123,7 +124,7 @@ public class BoardDAO {
 		  }
 		return board;
 	}
-   //글 상세 조회 메소드
+
 	public void updateBoard(BoardVO vo) {
 	   System.out.println("===>JDBC로 updateBoard()기능 처리");
 	   try {
@@ -150,9 +151,6 @@ public class BoardDAO {
 		   JDBCUtil.close(pstmt, conn);
 	   }
 	}
-	
-	
-	
 
 	public void deleteBoard(BoardVO vo) {
 	   System.out.println("===>JDBC로 deleteBoard() 기능 처리");
@@ -166,7 +164,6 @@ public class BoardDAO {
 	   }finally {
 		   JDBCUtil.close(pstmt, conn);
 	   }
-		
 	}
 	//조회수 증가메소드
 	public void updateBoardCnt(BoardVO vo) {
@@ -181,9 +178,8 @@ public class BoardDAO {
 		   }finally {
 			   JDBCUtil.close(pstmt, conn);
 		   }
-	}
-	}
+		}
 	
-
+}
 	
 

@@ -21,5 +21,6 @@ public class BoardListVO {
 		this.boardList = boardList;
 	}
 	
+	
 
 }

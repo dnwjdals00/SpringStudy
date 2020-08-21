@@ -1,3 +1,4 @@
+  
 package com.springbook.biz.common;
 
 import java.sql.Connection;
@@ -55,4 +56,3 @@ public class JDBCUtil {
 			}finally {conn=null;}
 	}
 }
-
