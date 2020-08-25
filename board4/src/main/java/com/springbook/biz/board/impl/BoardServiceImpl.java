@@ -17,7 +17,9 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	//@Inject
     // private BoardDAO boardDAO;
-	private BoardDAOMybatis boardDAO;
+	//private BoardDAOMybatis boardDAO;
+	private BoardDAOJpa boardDAO;
+	
      
 	@Override
 	public void insertBoard(BoardVO vo) {
@@ -39,12 +41,20 @@ public class BoardServiceImpl implements BoardService{
 
 	@Override
 	public BoardVO getBoard(BoardVO vo) {
+		updateBoardCnt(vo);
 		return boardDAO.getBoard(vo);
 	}
-
+	
+	
 	@Override
 	public List<BoardVO> getBoardList(BoardVO vo) {
 		return boardDAO.getBoardList(vo);
 	}
+	//조회수 증가
+	@Override
+	public void updateBoardCnt(BoardVO vo) {
+		boardDAO.updateBoardCnt(vo);
+	}
+	
 
 }

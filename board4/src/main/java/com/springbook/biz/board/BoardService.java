@@ -20,6 +20,8 @@ public interface BoardService {
 	
 	//글 목록조회
 	List<BoardVO>getBoardList(BoardVO vo);
-	
+
+	//글 조회수 
+	void updateBoardCnt(BoardVO vo);
 
 }
